@@ -1,0 +1,2 @@
+## Supplementary-data-for-Histone-variant-H2A.Z-modulates-nucleosome-dynamics-to-promote-DNA-accessibility-Li_et_al_2022
+This repository contains supplementary data for "Histone variant H2A.Z modulates nucleosome dynamics to promote DNA accessibility" by Li et al.

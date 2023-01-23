@@ -1,0 +1,45 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime
+import pandas as pd
+from math import *
+import sys
+import os
+
+startTime = datetime.now()
+mol = Molecule()
+mol.load("H2A_H2AZtail_nucleosome_initial.gro")
+firstframe = 2001
+lastframe = 70000
+outfile = 'H2A_H2AZtail_tail_contacts_NTER.dat'
+
+chainI = "A"
+chainJ = "B"
+chainIbp1 = -93
+chainIbp2 = 93
+chainJbp1 = -93
+chainJbp2 = 93
+chainPro1 = "E"
+chainPro2 = "I"
+chainPro1_resid1 = 1
+chainPro1_resid2 = 25
+chainPro2_resid1 = 1
+chainPro2_resid2 = 25
+
+mol.load("H2A_H2AZtail_nucleosome_overal_2us_long_final.trr",
+         first=firstframe, last=lastframe, step=1)
+nf=mol.numFrames()
+sel1 = atomsel("(chain "+chainI+" and resid '%d' to '%d' and noh)" % (chainIbp1, chainIbp2) +
+               " or (chain "+chainJ+" and resid '%d' to '%d' and noh)" % (chainJbp1, chainJbp2))
+sel2 = atomsel("(chain "+chainPro1+" and resid '%d' to '%d' and noh)" % (chainPro1_resid1, chainPro1_resid2) +
+               " or (chain "+chainPro2+" and resid '%d' to '%d' and noh)" % (chainPro2_resid1, chainPro2_resid2))
+
+sel1_contact = sel1.contacts(sel2, 4.5)
+with open(outfile, 'w') as f:
+	for i in range(1, nf):
+		animate.goto(i)
+		if 1:
+                    sel1_contact = sel1.contacts(sel2, 4.5)
+                    f.write(str(len(sel1_contact[0]))+"\n")
+
+

@@ -1,0 +1,54 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime
+import pandas as pd
+from math import *
+import sys
+import os
+
+startTime = datetime.now()
+mol = Molecule()
+mol.load("canonical_nucleosome_initial.gro")
+firstframe = 2001
+lastframe = 70000
+outfile = 'nuc_canonical_noretraint_unwrap_full_trj_7usend2.dat'
+chainI = "A"
+chainJ = "B"
+chainIbp1 = -93
+chainIbp2 = 93
+chainPro1 = "E"
+chainPro2 = "I"
+chainPro1_resid1 = 1
+chainPro1_resid2 = 25
+chainPro2_resid1 = 1
+chainPro2_resid2 = 25
+mol.load("canonical_nucleosome_overal_7us_long_final.trr",
+         first=firstframe, last=lastframe, step=1)
+nf = mol.numFrames()
+chainI = "A"
+chainJ = "B"
+d = 49  
+chainIbp1 = 73
+chainIbp2 = 0
+initials = [""]*(abs(chainIbp2-chainIbp1)+1)
+with open(outfile, 'w') as f:
+	for frame in range(1, nf):
+		animate.goto(frame)
+		if 1:
+                    i = 0
+                    unwrap = 0
+                    for l in range(chainIbp1, chainIbp2+1, 1):
+                        m = atomsel("(chain "+chainI+" and resid '%d' and noh)" % (l) +
+                                    " or (chain "+chainJ+" and resid '%d' and noh)" % (-l))
+                        temp = m.center()
+                        d = (temp[0]-initials[i][0])**2 + \
+                            (temp[1]-initials[i][1])**2 + (temp[2]-initials[i][2])**2
+                        i += 1
+                        if d >= cutoff:
+                            unwrap += 1
+                        else:
+                            f.write(str(unwrap)+"\n")
+                            break
+
+
+

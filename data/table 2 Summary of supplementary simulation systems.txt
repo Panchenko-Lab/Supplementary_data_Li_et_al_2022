@@ -1,0 +1,1 @@
+Simulation systems	Force field	Water model	Simulation timeH2AH2AZtail  (two copies of H2A with H2A.Z C-terminal tail) 	AMBER FF14SB + OL15	OPC	1 run * 2000ns			H2AZH2Atail  (two copies of H2A.Z with H2A C-terminal tail)	AMBER FF14SB +ÊOL15	OPC	1 run * 2000ns			H2AZrestraint 	AMBER FF14SB +ÊOL15	OPC	1 run * 2000ns			

@@ -1,0 +1,44 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime
+import pandas as pd
+from math import *
+import sys
+import os
+startTime = datetime.now()
+mol = Molecule()
+mol.load("H2AZ_norestraint_nucleosome_initial.gro")
+firstframe = 2001
+lastframe = 20000
+outfile = 'H2AZ_norestraint_nuc_SHL4_gap_along_time.dat'
+chainI_resid1 = -40
+chainI_resid2 = -38
+chainJ_resid1 = 38
+chainJ_resid2 = 40
+chainI_resid3 = 38
+chainI_resid4 = 40
+chainJ_resid3 = -40
+chainJ_resid4 = -38
+chainI = "A"
+chainJ = "B"
+proChain = "I"
+proResid1 = 119
+proResid2 = 130
+proChain = "I"
+proResid1 = 121
+proResid2 = 128
+mol.load("H2AZ_nucleosome_overal_7us_long_final.trr",
+         first=firstframe, last=lastframe, step=1)
+nf = mol.numFrames()
+with open(outfile, 'w') as f:
+	for i in range(1,nf):
+		animate.goto(i)
+		selSeg1 = atomsel("(chain "+chainI+" and resid '%d' to '%d' and noh)" % (chainI_resid1, chainI_resid2) +
+		                  " or (chain "+chainJ+" and resid '%d' to '%d' and noh)" % (chainJ_resid1, chainJ_resid2))
+		selSeg2 = atomsel("(chain "+chainI+" and resid '%d' to '%d' and noh)" % (chainI_resid3, chainI_resid4) +
+		                  " or (chain "+chainJ+" and resid '%d' to '%d' and noh)" % (chainJ_resid3, chainJ_resid4))
+		center1 = selSeg1.center()
+		center2 = selSeg2.center()
+		dist=sqrt((center1[0]-center2[0])**2+(center1[1]-center2[1])**2+(center1[2]-center2[2])**2)
+		f.write(str(dist)+"\n")
+f.close()
